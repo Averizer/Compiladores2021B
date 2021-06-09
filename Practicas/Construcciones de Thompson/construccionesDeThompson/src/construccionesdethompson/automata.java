@@ -21,6 +21,7 @@ public class automata {
         public ArrayList<Transicion> transciones;
         public int estadoFinal;
         public ArrayList<String> estdosFinales = new ArrayList<>();
+        public ArrayList<Integer> estadosFinalesint = new ArrayList<>();
         
         public automata(){
             this.estados = new ArrayList<Integer>();
@@ -54,8 +55,10 @@ public class automata {
             String aux = "";
             pw.write(alfabeto.toString().replace("[", "").replace("]", "")+"\n");
 
-            String ef = ""+estadoFinal+"\n";
-            pw.write(ef);
+            for (Transicion t : transciones ){
+                estadosFinalesint.add(t.edo_final);
+            }
+            pw.write(Collections.max(estadosFinalesint).toString());
             for (Transicion t : transciones ){
                 aux = t.edo_inicial + "," + t.simbolo + "," +t.edo_final+"\n";
                 System.out.println(aux);
@@ -63,7 +66,7 @@ public class automata {
             }
             pw.close();
             
-            System.out.println("Estado final:" + estados.toString());
+            System.out.println("Estado final:" + Collections.max(estadosFinalesint));
         }
         
         public void evaluarAlfabeto(String inputString){
