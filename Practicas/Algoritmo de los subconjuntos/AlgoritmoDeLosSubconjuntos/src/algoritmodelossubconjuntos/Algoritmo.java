@@ -37,8 +37,8 @@ public class Algoritmo {
         iterar y que sea más sencilla le ejecución
     */
     public static void LeerArchivo() throws FileNotFoundException, IOException{
-        String archivo = "C:\\Users\\emili\\OneDrive - Instituto Politecnico Nacional\\Desktop\\Compiladores"
-                + "\\Compiladores\\Practicas\\AFND.csv";
+        String archivo = "C:\\Users\\emili\\OneDrive - Instituto Politecnico Nacional\\"
+                + "Desktop\\Compiladores2021B\\Compiladores2021B\\Practicas\\AFND.csv";
         int nfila = 0;
         BufferedReader bufferLectura = new BufferedReader(
                 new FileReader(archivo));

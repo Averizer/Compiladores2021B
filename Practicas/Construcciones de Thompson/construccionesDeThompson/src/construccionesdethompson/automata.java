@@ -49,8 +49,8 @@ public class automata {
         }
         
         public void getAutomata(String inputString) throws FileNotFoundException{
-            PrintWriter pw = new PrintWriter(new File("C:\\Users\\emili\\OneDrive - Instituto Politecnico Nacional" +
-                    "\\Desktop\\Compiladores\\Compiladores\\Practicas\\AFND.csv"));
+            PrintWriter pw = new PrintWriter(new File("C:\\Users\\emili\\OneDrive - Instituto Politecnico Nacional\\"
+                    + "Desktop\\Compiladores2021B\\Compiladores2021B\\Practicas\\AFND.csv"));
             evaluarAlfabeto(inputString);
             String aux = "";
             pw.write(alfabeto.toString().replace("[", "").replace("]", "")+"\n");
@@ -58,7 +58,7 @@ public class automata {
             for (Transicion t : transciones ){
                 estadosFinalesint.add(t.edo_final);
             }
-            pw.write(Collections.max(estadosFinalesint).toString());
+            pw.write(Collections.max(estadosFinalesint).toString()+"\n");
             for (Transicion t : transciones ){
                 aux = t.edo_inicial + "," + t.simbolo + "," +t.edo_final+"\n";
                 System.out.println(aux);

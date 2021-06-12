@@ -29,7 +29,7 @@ public class automata {
 
         public void getAutomata() throws FileNotFoundException{
             PrintWriter pw = new PrintWriter(new File("C:\\Users\\emili\\OneDrive - Instituto Politecnico Nacional\\Desktop"
-                    + "\\Compiladores\\Compiladores\\Practicas\\AFD.csv"));
+                    + "\\Compiladores2021B\\Compiladores2021B\\Practicas\\AFD.csv"));
             
             String aux = "";
             pw.write(alfabeto.toString().replace("[", "").replace("]", "")+"\n");
