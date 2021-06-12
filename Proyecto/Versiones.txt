@@ -1,1 +1,2 @@
-Revisar versión de Bison y Flex
+BISON v3.4
+FLEX v2.6.4
