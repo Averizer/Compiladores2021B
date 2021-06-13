@@ -31,6 +31,15 @@ public class algoritmo {
     
     public static void ejecutarAlgoritmo() throws IOException{
         g.LeerArchivo();
+        int[][] tabla = new int[g.terminales.size()][g.noTerminales.size()+1];
+        //Inicializar tabla
+        for (int i = 0; i < g.terminales.size(); i++) {
+            for (int j = 0; j < g.noTerminales.size()+1; j++) {
+                tabla[i][j]= -1;
+                
+            }
+        }
+        
         HashMap<String, ArrayList<String>> calculos 
                 = new HashMap<String, ArrayList<String>>();
         // calcular primero de alfa para todas las producciones
@@ -38,15 +47,54 @@ public class algoritmo {
             System.out.println("________________Nuevo Alfa__________________");
             if(g.alfas.get(i).get(0).equals("E")){
                 System.out.println("S("+g.inicios.get(i)+")");
-                calculos.put("s("+g.inicios.get(i)+")", eliminarDuplicados(s(g.inicios.get(i))));
+                ArrayList<String> aux = eliminarDuplicados(s(g.inicios.get(i)));
+                calculos.put("s("+g.inicios.get(i)+")", aux);
+                int x =  g.noTerminales.indexOf(g.inicios.get(i)) ;
+                for(String t: aux){
+                    int y;
+                    if(t.contains("$")){
+                        y = g.terminales.size();
+                    } else {
+                        y = g.terminales.indexOf(t);
+                    }
+                    
+                    tabla[x][y] = i;
+                }
+                
                 System.out.println("----------------->"+calculos);
             }else{
                 System.out.println("P("+g.alfas.get(i)+")");
-                calculos.put("p("+g.alfas.get(i).get(0)+")", eliminarDuplicados(p(g.alfas.get(i).get(0))));
-                System.out.println("----------------->"+calculos);
+                ArrayList<String> aux = eliminarDuplicados(p(g.alfas.get(i).get(0)));
+                calculos.put("p("+g.alfas.get(i).get(0)+")", aux);
+                System.out.println(calculos);
+                int x =  g.noTerminales.indexOf(g.inicios.get(i)) ;
+                System.out.println(g.inicios.get(i));
+                System.out.println(g.noTerminales);
+                System.out.println("x "+ x);
+                for(String t: aux){
+                    int y;
+                    if(t.contains("$")){
+                        y = g.terminales.size();
+                    } else {
+                        y = g.terminales.indexOf(t);
+                    }
+                    
+                    tabla[x][y] = i;
+                }
             }
         }
         System.out.println(calculos.toString());
+        System.out.println("Tabla");
+        for (int i = 0; i < g.terminales.size(); i++) {
+            for (int j = 0; j < g.noTerminales.size()+1; j++) {
+                System.out.print("\t["+tabla[i][j]+"]");
+                
+            }
+            System.out.println("");
+        }
+        
+        
+        
     }
     
     public static ArrayList<String> p(String simb){
