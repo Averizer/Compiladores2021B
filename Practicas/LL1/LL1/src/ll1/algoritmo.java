@@ -85,7 +85,12 @@ public class algoritmo {
         }
         System.out.println(calculos.toString());
         System.out.println("Tabla");
+        for(String nt : g.terminales){
+            System.out.print("\t "+nt);
+        }
+        System.out.print("\t $\n");
         for (int i = 0; i < g.terminales.size(); i++) {
+            System.out.print(g.noTerminales.get(i));
             for (int j = 0; j < g.noTerminales.size()+1; j++) {
                 System.out.print("\t["+tabla[i][j]+"]");
                 
