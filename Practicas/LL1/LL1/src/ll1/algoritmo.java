@@ -35,7 +35,7 @@ public class algoritmo {
         //Inicializar tabla
         for (int i = 0; i < g.terminales.size(); i++) {
             for (int j = 0; j < g.noTerminales.size()+1; j++) {
-                tabla[i][j]= -1;
+                tabla[i][j]= 0;
                 
             }
         }
@@ -58,7 +58,7 @@ public class algoritmo {
                         y = g.terminales.indexOf(t);
                     }
                     
-                    tabla[x][y] = i;
+                    tabla[x][y] = i+1;
                 }
                 
                 System.out.println("----------------->"+calculos);
@@ -79,7 +79,7 @@ public class algoritmo {
                         y = g.terminales.indexOf(t);
                     }
                     
-                    tabla[x][y] = i;
+                    tabla[x][y] = i+1;
                 }
             }
         }
