@@ -44,8 +44,12 @@ Este algoritmo está probado con el primer ejercicio usando como entrada el auto
 
 Algoritmo de minimización, este algoritmo está probado con el ejercicio de clase, especificando en el archivo AFD.csv, alfabeto, terminal, inicial, no terminales, y las trancisiones, el ejercicio muestra todos los pasos e intrucciones para redibujar el nuevo automata.
 
+## ASDR
+
+Este algoritmo es la implementación el problema planteado y resuelto en clase.
+
 ## LL1
 
-El algoritmo carga los datos de un archivo llamado LL1.csv, donde vienen 
+El algoritmo carga los datos de un archivo llamado LL1.csv, el archivo contiene separados, los no terminales, los terminales, y las producciones, el programa muestra todas las produccioens que se van creando durante la ejecución del algoritmo, este programa se puede mejorar agregando a una tabla hash cada calculo con su resultado para no tener que calcular de nuevo, no está implementada esa parte, pero si la de gaurdar en la tabla hash, finalmente se muestra una tabla con el nuemero de producción y con que terminal es activada esa producción, tal cual fue realizado el ejercicio en clase. Algoritmo probado con el ejercicio en clase.
 
-## Algoritmo de los subconjutos
+
