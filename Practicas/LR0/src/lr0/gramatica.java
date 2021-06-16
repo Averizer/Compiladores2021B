@@ -9,13 +9,14 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author emili
  */
-public class gramatica {
+public class gramatica implements Serializable{
     public  ArrayList<String> noTerminales = new ArrayList<>();
     public  ArrayList<String> terminales = new ArrayList<>();
     public  ArrayList<ArrayList<String>> producciones = new ArrayList<>();
@@ -23,7 +24,7 @@ public class gramatica {
     public  ArrayList<ArrayList<String>> derechas = new ArrayList<>();
     public  ArrayList<ArrayList<String>> produccionesPuntosIniciales = new ArrayList<>();
     public  ArrayList<String> iniciosEx = new ArrayList<>();
-    public  ArrayList<ArrayList<String>> derechasEx = new ArrayList<>();
+    private ArrayList<ArrayList<String>> derechasEx = new ArrayList<>();
     public  ArrayList<ArrayList<String>> produccionesEx = new ArrayList<>();  
     
     public void LeerArchivo() throws FileNotFoundException, IOException{
@@ -88,4 +89,10 @@ public class gramatica {
         System.out.println("Gramatica extendida correctamente "+ iniciosEx);
         System.out.println(derechasEx);
     }
+
+    public ArrayList<ArrayList<String>> getDerechasEx() {
+        return derechasEx;
+    }
+    
+    
 }

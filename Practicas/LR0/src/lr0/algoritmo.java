@@ -20,6 +20,7 @@ public class algoritmo {
     public static gramatica g = new gramatica();
     public static ArrayList<ArrayList<ArrayList<String>>> conjuntos = new ArrayList<>();
     public static ArrayList<ArrayList<ArrayList<String>>> kernels = new ArrayList<>();
+    public static final ArrayList<ArrayList<String>>  referencias = new ArrayList<>();
     /**
      * @param args the command line arguments
      */
@@ -39,7 +40,6 @@ public class algoritmo {
         boolean bandera = true;
         
         ArrayList<Integer> yaRevisados = new ArrayList<>();
-        System.out.println("derechas "+ g.derechasEx);
        while(bandera){
             ArrayList<String> actual = conjuntosFaltantes.pop();
             int indicePunto  = actual.indexOf(".");
@@ -54,8 +54,8 @@ public class algoritmo {
                     if(!indices.isEmpty()){
                         for (int i = 0; i < indices.size(); i++){
                             if(!yaRevisados.contains(indices.get(i))){
-                                conjuntosFaltantes.add(g.derechasEx.get(indices.get(i)));
-                                resultado.add(g.derechasEx.get(indices.get(i)));
+                                conjuntosFaltantes.add(referencias.get(indices.get(i)));
+                                resultado.add(referencias.get(indices.get(i)));
                                 yaRevisados.add(indices.get(i));
                             }
                         }
@@ -72,29 +72,35 @@ public class algoritmo {
     }
     
     public static ArrayList<ArrayList<String>> mover(ArrayList<ArrayList<String>> actual, String letra){
+        System.out.println("DEX "+ referencias);
+        System.out.println("Actual "+actual);
+        String buscado = "., "+letra;
+        System.out.println("B "+buscado);
         ArrayList<ArrayList<String>> resultado = new ArrayList<>();
-        for(ArrayList<String> produccion: actual){
-            for (int i = 0; i < produccion.size()-1; i++) {
-                if(produccion.get(i).equals(".") && produccion.get(i+1).equals(letra)){
-                    ArrayList<String> s = produccion;
-                    s.remove(i);
-                    s.add(i+1,".");
-                    resultado.add(s);
-                }
+        
+        for (int i = 0; i < actual.size(); i++) 
+        {
+            System.out.println(actual.get(i).toString().contains(buscado));
+            if(actual.get(i).toString().contains(buscado)){
+                int indice = actual.get(i).indexOf(".");
+                actual.get(i).remove(".");
+                actual.get(i).add(indice+1, ".");
+                resultado.add(actual.get(i));
             }
         }
         System.out.println("Res "+resultado);
-        System.out.println("DEX "+ g.derechasEx);
+        System.out.println("DEX "+ referencias);
         return resultado;
     }
     
     public static void ejecutarAlgoritmo(){
         Stack <ArrayList<ArrayList<String>>> conjuntosFaltantes = new Stack <ArrayList<ArrayList<String>>>();
         ArrayList<ArrayList<String>> tablaNoTerminales = new ArrayList<>();
+        final ArrayList<ArrayList<String>>  derechasFijas = referencias;
         /*Paso 2 cerradura del estado 0*/
         
         System.out.println("\nCerradura paso 2");
-        ArrayList<ArrayList<String>> aux = Cerradura(g.derechasEx.get(0));
+        ArrayList<ArrayList<String>> aux = Cerradura(referencias.get(0));
         conjuntosFaltantes.add(aux);
         boolean bandera = true;
         conjuntos.add(aux);
@@ -146,8 +152,12 @@ public class algoritmo {
         
         g.LeerArchivo();
         g.extenderGramatica();
-        System.out.println("Iniciales -> "+g.iniciosEx);
-        System.out.println("Producciones -> "+g.derechasEx);
+        int size = g.getDerechasEx().size();
+        for (int i = 0; i < size; i++) {
+            ArrayList<String> aux = new ArrayList<>();
+            aux.addAll(g.getDerechasEx().get(i));
+            referencias.add(aux);
+        }
         ejecutarAlgoritmo();
     }
     
