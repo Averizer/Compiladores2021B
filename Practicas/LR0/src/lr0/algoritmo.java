@@ -90,6 +90,7 @@ public class algoritmo {
         }
         System.out.println("Res "+resultado);
         System.out.println("DEX "+ referencias);
+        System.out.println("Derechas "+ g.getDerechasEx());
         return resultado;
     }
     

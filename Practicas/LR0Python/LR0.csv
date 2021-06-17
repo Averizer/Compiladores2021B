@@ -1,0 +1,8 @@
+S, S', T, T', F
++, *, (, ), id
+S, S, +, T
+S, T
+T, T, *, F
+T, F
+F, (, S, )
+F, id
