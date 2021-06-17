@@ -5,6 +5,7 @@ producciones = list()
 conjuntosFinales = list()
 producciones_con_puntos = list()
 kernels = list()
+trancicionesAAgregar = list()
 
 def cerradura(conjuntoAHacerCerradura):
     global producciones_con_puntos
@@ -49,7 +50,6 @@ def mover (aMover, letra):
     
     return resultadoDeMover
     
-
 with open('LR0.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
@@ -89,7 +89,6 @@ banderaFinalizacion = True
 
 while(banderaFinalizacion):
     evaluandoEnAlgoritmo = porCalcular.pop(0)
-    #Juntar las letras que tengo que evaluar
     letrasAMover = list()
 
     for ev in evaluandoEnAlgoritmo:
@@ -101,16 +100,28 @@ while(banderaFinalizacion):
     for l in letrasAMover:
         kernelCalculado = list(mover(evaluandoEnAlgoritmo, l))
         if kernelCalculado not in kernels:
+            trancision = list()
             kernels.append(kernelCalculado)
             conjuntoNuevoApartirDeKernel = list()
             for k in kernelCalculado: #Para cada elemento del kernel calculado 
                 conjuntoNuevoApartirDeKernel.extend(cerradura(k))
             porCalcular.append(conjuntoNuevoApartirDeKernel)
             conjuntosFinales.append(conjuntoNuevoApartirDeKernel)
-    
+            trancision = list()
+            trancision.append(conjuntosFinales.index(evaluandoEnAlgoritmo))
+            trancision.append(l)
+            trancision.append(kernels.index(kernelCalculado)+1)
+            trancicionesAAgregar.append(trancision)
+        else:
+            trancision = list()
+            trancision.append(conjuntosFinales.index(evaluandoEnAlgoritmo))
+            trancision.append(l)
+            trancision.append(kernels.index(kernelCalculado)+1)
+            trancicionesAAgregar.append(trancision)
     if(len(porCalcular)== 0):
         banderaFinalizacion = False
 
-for x in conjuntosFinales:
-    print(x)
+print("SHIFTS")
+for i in trancicionesAAgregar:
+    print(i)
     
