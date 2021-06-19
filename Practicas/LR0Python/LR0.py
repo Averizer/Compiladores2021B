@@ -5,8 +5,46 @@ producciones = list()
 conjuntosFinales = list()
 producciones_con_puntos = list()
 kernels = list()
-trancicionesAAgregar = list()
+shift = list()
+reduces = {}
+irA = list()
 
+
+def p(simb):
+    res = list()
+    if simb in terminales:
+        res.append(simb)
+    elif simb in noTerminales:
+        noTerminalesAEvaluar = list()
+        for i in range(0,len(producciones)):
+            if producciones[i][0] == simb:
+                if producciones[i][1]  != simb:
+                    if producciones[i][1] in noTerminales:
+                        noTerminalesAEvaluar.append(producciones[i][1])
+                    else:
+                        res.append(producciones[i][1])
+                
+        for n in noTerminalesAEvaluar:
+            res.extend(p(n))
+    return res 
+
+def s(simb):
+    res = list()
+    if simb == producciones[0][0]:
+        res.append("$")
+    for i in range(0,len(producciones)):
+        parteDerecha = producciones[i][1:len(producciones)]
+        if simb in parteDerecha:
+            indiceDerecha = parteDerecha.index(simb)
+            if indiceDerecha == len(producciones[i])-2: #Esta al final]
+                res.extend(s(producciones[i][0]))
+            else:
+                aEvaluarPrimero = parteDerecha[parteDerecha.index(simb)+1]
+                res.extend((aEvaluarPrimero))
+   
+    res = list(dict.fromkeys(res))
+    return res
+    
 def cerradura(conjuntoAHacerCerradura):
     global producciones_con_puntos
     global noTerminales
@@ -69,6 +107,7 @@ with open('LR0.csv') as csv_file:
                 auxproduccion.append(r.lstrip())
             producciones.append(auxproduccion)
 
+
 #---------------------PASO 1 Extender Gramática--------------------
 aux = ['Z']
 aux.append(producciones[0][0])
@@ -111,17 +150,27 @@ while(banderaFinalizacion):
             trancision.append(conjuntosFinales.index(evaluandoEnAlgoritmo))
             trancision.append(l)
             trancision.append(kernels.index(kernelCalculado)+1)
-            trancicionesAAgregar.append(trancision)
+            shift.append(trancision)
         else:
             trancision = list()
             trancision.append(conjuntosFinales.index(evaluandoEnAlgoritmo))
             trancision.append(l)
             trancision.append(kernels.index(kernelCalculado)+1)
-            trancicionesAAgregar.append(trancision)
+            shift.append(trancision)
     if(len(porCalcular)== 0):
         banderaFinalizacion = False
 
 print("SHIFTS")
-for i in trancicionesAAgregar:
-    print(i)
+for entrada in shift:
+    if entrada[1] in noTerminales:
+        irA.append(entrada)
+        shift.remove(entrada)
+
+for p in producciones:
+    llave = "s("+str(p[0])+")"
+    reduces[llave] = s(p[0])
+
+print("Sifts ", shift)
+print("Ir A", irA)
+print("Siguientes ",reduces)
     
