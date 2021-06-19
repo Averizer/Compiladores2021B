@@ -53,7 +53,7 @@ Entrada (Salida de Thompson)<br />
 
 Algoritmo de minimización, este algoritmo está probado con el ejercicio de clase, especificando en el archivo aMinimizar.csv, alfabeto, terminal, inicial, no terminales, y las trancisiones, el ejercicio muestra todos los pasos e intrucciones para redibujar el nuevo automata.
 <br />Entrada<br />
-![image](https://user-images.githubusercontent.com/36316073/122655842-59739000-d11b-11eb-95e4-2fe870c8dcb0.png)
+![image](https://user-images.githubusercontent.com/36316073/122656140-993b7700-d11d-11eb-9907-fcb869ad3d2d.png)
 <br />Salida<br />
 ![image](https://user-images.githubusercontent.com/36316073/122655917-e585b780-d11b-11eb-8321-8adc00a52145.png)
 
