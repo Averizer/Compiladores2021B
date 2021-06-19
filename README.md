@@ -52,7 +52,7 @@ Entrada (Salida de Thompson)<br />
 ## Algoritmo de minimización
 
 Algoritmo de minimización, este algoritmo está probado con el ejercicio de clase, especificando en el archivo aMinimizar.csv, alfabeto, terminal, inicial, no terminales, y las trancisiones, el ejercicio muestra todos los pasos e intrucciones para redibujar el nuevo automata.
-Entrada<br />
+<br />Entrada<br />
 ![image](https://user-images.githubusercontent.com/36316073/122655842-59739000-d11b-11eb-95e4-2fe870c8dcb0.png)
 <br />Salida<br />
 ![image](https://user-images.githubusercontent.com/36316073/122655917-e585b780-d11b-11eb-8321-8adc00a52145.png)
@@ -60,18 +60,18 @@ Entrada<br />
 ## ASDR
 
 Este algoritmo es la implementación el problema planteado y resuelto en clase.
-<br />/Programa<br />
+<br />Programa<br />
 ![image](https://user-images.githubusercontent.com/36316073/122655943-21b91800-d11c-11eb-9dcd-8321f2f6d982.png)
 
 
 ## LL1
 
 El algoritmo carga los datos de un archivo llamado LL1.csv, el archivo contiene separados, los no terminales, los terminales, y las producciones, el programa muestra todas las produccioens que se van creando durante la ejecución del algoritmo, este programa se puede mejorar agregando a una tabla hash cada calculo con su resultado para no tener que calcular de nuevo, no está implementada esa parte, pero si la de gaurdar en la tabla hash, finalmente se muestra una tabla con el nuemero de producción y con que terminal es activada esa producción, tal cual fue realizado el ejercicio en clase. Algoritmo probado con el ejercicio en clase.
-<br />/Entrada<br />
+<br />Entrada<br />
 ![image](https://user-images.githubusercontent.com/36316073/122655955-41e8d700-d11c-11eb-98af-c00655d87674.png)
-<br />/Iteraciones<br />
+<br />Iteraciones<br />
 ![image](https://user-images.githubusercontent.com/36316073/122656027-d5220c80-d11c-11eb-9175-66591b145aff.png)
-<br />/Salida (Tabla LL1)<br />
+<br />Salida (Tabla LL1)<br />
 ![image](https://user-images.githubusercontent.com/36316073/122656043-ee2abd80-d11c-11eb-8c66-a322ad9809e0.png)
 
 
