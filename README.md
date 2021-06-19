@@ -52,7 +52,9 @@ Este algoritmo es la implementación el problema planteado y resuelto en clase.
 
 El algoritmo carga los datos de un archivo llamado LL1.csv, el archivo contiene separados, los no terminales, los terminales, y las producciones, el programa muestra todas las produccioens que se van creando durante la ejecución del algoritmo, este programa se puede mejorar agregando a una tabla hash cada calculo con su resultado para no tener que calcular de nuevo, no está implementada esa parte, pero si la de gaurdar en la tabla hash, finalmente se muestra una tabla con el nuemero de producción y con que terminal es activada esa producción, tal cual fue realizado el ejercicio en clase. Algoritmo probado con el ejercicio en clase.
 
-## LL1
+## LL0
 
 El algoritmo lee los terminales, no terminales y producciones desde el archivo llamado LR0.csv, el programa muestra directamente la tabla LR0, las variables fueron separadas de tal manera que se puede mostrar las producciones, los conjuntos resultante de la ejecución del algoritmo y demás. Se ocupan los conceptos de primero, siguiente, cerradura y mover. 
 Para mostrar la tabla hice uso de la librería Tabulate, obtenida de https://pypi.org/project/tabulate/ .
+
+![image](https://user-images.githubusercontent.com/36316073/122655408-ab1a1b80-d117-11eb-9fbe-0c87aee6b89c.png)
