@@ -1,13 +1,17 @@
 import csv
+import sys
+from tabulate import tabulate
 noTerminales = list()
 terminales = list()
 producciones = list()
 conjuntosFinales = list()
 producciones_con_puntos = list()
+aSeparar = list()
 kernels = list()
 shift = list()
-reduces = {}
+siguientes = {}
 irA = list()
+
 
 
 def p(simb):
@@ -150,27 +154,62 @@ while(banderaFinalizacion):
             trancision.append(conjuntosFinales.index(evaluandoEnAlgoritmo))
             trancision.append(l)
             trancision.append(kernels.index(kernelCalculado)+1)
-            shift.append(trancision)
+            aSeparar.append(trancision)
         else:
             trancision = list()
             trancision.append(conjuntosFinales.index(evaluandoEnAlgoritmo))
             trancision.append(l)
             trancision.append(kernels.index(kernelCalculado)+1)
-            shift.append(trancision)
+            aSeparar.append(trancision)
     if(len(porCalcular)== 0):
         banderaFinalizacion = False
 
-print("SHIFTS")
-for entrada in shift:
-    if entrada[1] in noTerminales:
-        irA.append(entrada)
-        shift.remove(entrada)
 
 for p in producciones:
     llave = "s("+str(p[0])+")"
-    reduces[llave] = s(p[0])
+    siguientes[llave] = s(p[0])
 
-print("Sifts ", shift)
-print("Ir A", irA)
-print("Siguientes ",reduces)
+
+terminales.append("$")
+terminales.extend(noTerminales)
+tabla = list()
+for p in producciones:
+    p.append(".")
     
+print("")
+reduceAAgregar = list()
+# ---------------------Creacion de la tabla, con shift e irA
+for c in range(0, len(conjuntosFinales)):
+    reduceAAgregar.clear()
+    row = list = ["-" for i in range(len(terminales))]
+    for p in producciones:
+        if p in conjuntosFinales[c]:
+            print("")
+            reduceAAgregar.extend(siguientes["s("+p[0]+")"])
+            for reduceA in reduceAAgregar:
+                if producciones.index(p) == 0:
+                    row[terminales.index(reduceA)] = "ACC"
+                else:
+                    row[terminales.index(reduceA)] = "r"+str(producciones.index(p))
+
+    for sh in aSeparar:
+        if sh[0] == c:
+            if sh[1] in noTerminales:
+                row[terminales.index(sh[1])] = str(sh[2])
+            else:
+                row[terminales.index(sh[1])] = "s"+str(sh[2])
+    tabla.append(row)
+
+
+print(tabulate(tabla, terminales, tablefmt="grid"))
+"""
+for t in terminales:
+    sys.stdout.write("\t "+t)
+    #print("\t",t.lstrip(), end = '')
+
+for x in range(0, len(tabla)):
+    print("")
+    for y in range(0, len(tabla[x])):
+        sys.stdout.write("\t" + tabla[x][y])
+"""
+

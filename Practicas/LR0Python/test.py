@@ -1,5 +1,4 @@
-prueba = []
+n = 5
+m = 5
 
-prueba[0][1] = 1
-
-print(prueba)
+tabla = [["-"] * n] * m
