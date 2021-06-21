@@ -9,10 +9,8 @@ producciones_con_puntos = list()
 aSeparar = list()
 kernels = list()
 shift = list()
-siguientes = {}
+primeros = {}
 irA = list()
-
-
 
 def p(simb):
     res = list()
@@ -32,67 +30,9 @@ def p(simb):
             res.extend(p(n))
     return res 
 
-def s(simb):
-    res = list()
-    if simb == producciones[0][0]:
-        res.append("$")
-    for i in range(0,len(producciones)):
-        parteDerecha = producciones[i][1:len(producciones)]
-        if simb in parteDerecha:
-            indiceDerecha = parteDerecha.index(simb)
-            if indiceDerecha == len(producciones[i])-2: #Esta al final]
-                res.extend(s(producciones[i][0]))
-            else:
-                aEvaluarPrimero = parteDerecha[parteDerecha.index(simb)+1]
-                res.extend((aEvaluarPrimero))
-   
-    res = list(dict.fromkeys(res))
-    return res
-    
-def cerradura(conjuntoAHacerCerradura):
-    global producciones_con_puntos
-    global noTerminales
-    faltantes = []
-    faltantes.append(conjuntoAHacerCerradura)
-    resultado = list()
-    resultado.append(conjuntoAHacerCerradura)
 
-    bandera = True
-    
-    while(bandera):
-        
-        actual = list(faltantes.pop(0))
-        indicePunto = 0
-        indicePunto = actual.index('.')
-        if indicePunto != len(actual)-1: 
-            if actual[indicePunto+1].lstrip() in noTerminales: #Verificar si hay un no terminal despues del punto
-                resultadoActual=list()                #Donde se guardara los conjuntos que faltan por agregar
-                buscando = actual[indicePunto+1]
-                for i in range(0, len(producciones_con_puntos)):    #Para todas las producciones con puntos 
-                    if (producciones_con_puntos[i][0] == buscando):
-                            if(producciones_con_puntos[i] not in resultado):
-                                faltantes.append(producciones_con_puntos[i])
-                                resultadoActual.append(producciones_con_puntos[i])
-                    
-                resultado.extend(resultadoActual)
-        if len(faltantes) == 0:
-            bandera = False
-    return resultado
-
-def mover (aMover, letra):
-    resultadoDeMover = list()
-    buscadoEnMover = "'.', '"+str(letra)+"'"
-    for enAMover in aMover:
-        if buscadoEnMover in str(enAMover):
-            aux = list(enAMover)
-            indice = aux.index('.')
-            del(aux[indice])
-            aux.insert(indice+1,".")
-            resultadoDeMover.append(aux)
-    
-    return resultadoDeMover
-    
-with open('LR0.csv') as csv_file:
+#---------------------LEER ARCHIVO, CARGAR DATOS-------------
+with open('LR1.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
@@ -111,21 +51,97 @@ with open('LR0.csv') as csv_file:
                 auxproduccion.append(r.lstrip())
             producciones.append(auxproduccion)
 
+def extenderPrimeros(listaPrimeros, donde):
+    print("------Extender ")
+    extendidos = list()
+    for r in listaPrimeros:
+        auxEx = donde
+        auxEx.append(r)
+        extendidos.append(auxEx)
+    print("Extendidos ", extendidos)
+    return extendidos
 
-#---------------------PASO 1 Extender Gramática--------------------
+def cerradura(conjuntoAHacerCerradura):
+    global producciones_con_puntos
+    global noTerminales
+    faltantes = []
+    faltantes.append(conjuntoAHacerCerradura)
+    resultado = list()
+    resultado.append(conjuntoAHacerCerradura)
+    cont = 0
+    bandera = True
+    
+    while(bandera):
+        
+        actual = list(faltantes.pop(0))
+        indicePunto = 0
+        indicePunto = actual.index('.')
+        if indicePunto != len(actual)-1: 
+            if actual[indicePunto+1].lstrip() in noTerminales: #Verificar si hay un no terminal despues del punto
+                resultadoActual=list()                #Donde se guardara los conjuntos que faltan por agregar
+                buscando = actual[indicePunto+1]
+                for i in range(0, len(producciones_con_puntos)):    #Para todas las producciones con puntos 
+                    primerosCerradura = list()
+                    if (producciones_con_puntos[i][0] == buscando):
+                        print("="+actual[indicePunto+2]+"=")
+                        primerosCerradura = p(actual[indicePunto+2])
+                        print("Primeros en cerradura", primerosCerradura)
+                        print("Produccion a extender ",producciones_con_puntos[i])
+                        for pC in primerosCerradura:
+                            aux = list(producciones_con_puntos[i])
+                            aux.append(pC)
+                            print("Extendido ", aux)
+                            if(aux not in resultado):
+                                faltantes.append(aux)
+                                resultadoActual.append(aux)
+                    
+                resultado.extend(resultadoActual)
+        if len(faltantes) == 0:
+            bandera = False
+        cont = cont +1
+    return resultado
+
+def mover (aMover, letra):
+    resultadoDeMover = list()
+    buscadoEnMover = "'.', '"+str(letra)+"'"
+    for enAMover in aMover:
+        if buscadoEnMover in str(enAMover):
+            aux = list(enAMover)
+            indice = aux.index('.')
+            del(aux[indice])
+            aux.insert(indice+1,".")
+            resultadoDeMover.append(aux)
+    
+    return resultadoDeMover
+  
+#---------------------PASO 1 Extender Gramática--------------
 aux = ['Z']
 aux.append(producciones[0][0])
 producciones.insert(0,aux)
+noTerminales.append("Z")
+terminales.append("$")
+#---------------------CAlCULO DE PRIMEROS--------------------
+"""for nt in noTerminales:
+    llave = "p("+str(nt)+")"
+    primeros[llave] = p(nt)
 
-#---------------------PASO 2 --------------------------------------
+for t in terminales:
+    print(t)
+    llave = "p("+str(t)+")"
+    primeros[llave] = p(t)
+"""
+#---------------------PASO 2 ---------------------------------
 #   +++++ Cerradura 0 +++++
-for p in producciones:
-    auxParaPuntos = list(p)
+for pr in producciones:
+    auxParaPuntos = list(pr)
     auxParaPuntos.insert(1,'.')
     producciones_con_puntos.append(auxParaPuntos)
 
 porCalcular = []
-auxParaPrimeraCerradura = cerradura(producciones_con_puntos[0])
+aux = producciones_con_puntos[0]
+aux.append("$")
+auxParaPrimeraCerradura = cerradura(aux)
+print("Primera cerradura ", auxParaPrimeraCerradura)
 conjuntosFinales.append(auxParaPrimeraCerradura)
 porCalcular.append(auxParaPrimeraCerradura)
 banderaFinalizacion = True
@@ -136,15 +152,21 @@ while(banderaFinalizacion):
 
     for ev in evaluandoEnAlgoritmo:
         indicePunto = ev.index('.')
-        if indicePunto != len(ev)-1:
+        if indicePunto != len(ev)-2:
             if ev[indicePunto+1] not in letrasAMover:
+                #if ev[indicePunto+1] in noTerminales:
                 letrasAMover.append(ev[indicePunto+1]) 
 
+    print("Letras a mover ", letrasAMover)
     for l in letrasAMover:
+        print("")
+        print("Ev ", evaluandoEnAlgoritmo)
+        print("L ",l)
         kernelCalculado = list(mover(evaluandoEnAlgoritmo, l))
         if kernelCalculado not in kernels:
             trancision = list()
             kernels.append(kernelCalculado)
+            print("Nuevo kernel ", kernelCalculado)
             conjuntoNuevoApartirDeKernel = list()
             for k in kernelCalculado: #Para cada elemento del kernel calculado 
                 conjuntoNuevoApartirDeKernel.extend(cerradura(k))
@@ -165,41 +187,9 @@ while(banderaFinalizacion):
         banderaFinalizacion = False
 
 
-for p in producciones:
-    llave = "s("+str(p[0])+")"
-    siguientes[llave] = s(p[0])
+print("Terminales ", terminales)
+print("No terminales ", noTerminales)
+print("Producciones ", producciones)
+print("Primeros ", primeros)
 
-
-terminales.append("$")
-terminales.extend(noTerminales)
-tabla = list()
-for p in producciones:
-    p.append(".")
-    
-print("")
-reduceAAgregar = list()
-# ---------------------Creacion de la tabla, con shift e irA
-for c in range(0, len(conjuntosFinales)):
-    reduceAAgregar.clear()
-    row = list = ["-" for i in range(len(terminales))]
-    for p in producciones:
-        if p in conjuntosFinales[c]:
-            print("")
-            reduceAAgregar.extend(siguientes["s("+p[0]+")"])
-            for reduceA in reduceAAgregar:
-                if producciones.index(p) == 0:
-                    row[terminales.index(reduceA)] = "ACC"
-                else:
-                    row[terminales.index(reduceA)] = "r"+str(producciones.index(p))
-
-    for sh in aSeparar:
-        if sh[0] == c:
-            if sh[1] in noTerminales:
-                row[terminales.index(sh[1])] = str(sh[2])
-            else:
-                row[terminales.index(sh[1])] = "s"+str(sh[2])
-    tabla.append(row)
-
-
-print(tabulate(tabla, terminales, tablefmt="grid"))
-
+print("\nKernels \n",kernels)

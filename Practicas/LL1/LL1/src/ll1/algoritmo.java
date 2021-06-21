@@ -66,11 +66,7 @@ public class algoritmo {
                 System.out.println("P("+g.alfas.get(i)+")");
                 ArrayList<String> aux = eliminarDuplicados(p(g.alfas.get(i).get(0)));
                 calculos.put("p("+g.alfas.get(i).get(0)+")", aux);
-                System.out.println(calculos);
                 int x =  g.noTerminales.indexOf(g.inicios.get(i)) ;
-                System.out.println(g.inicios.get(i));
-                System.out.println(g.noTerminales);
-                System.out.println("x "+ x);
                 for(String t: aux){
                     int y;
                     if(t.contains("$")){
@@ -143,7 +139,6 @@ public class algoritmo {
                 System.out.println("alfa evaluado "+posibleInicio +" ->"+ evaluando);
                 
                 if(!evaluando.get(evaluando.size()-1).equals(simb)){ // Regla 2, N esta en medio a
-                    System.out.println("R2");
                     res.addAll(p(evaluando.get(evaluando.indexOf(simb)+1)));
                     if(res.contains("E")){
                         res.remove("E");
@@ -153,7 +148,6 @@ public class algoritmo {
                 if(evaluando.get(evaluando.size()-1).equals(simb)){ // Regla 3, N esta al fina
                     
                     String siguiente = "S("+g.inicios.get(i)+")";
-                    System.out.println("R3");
                     
                             
                     if(!actual.equals(siguiente)){ //Evitar que se cicle si se va a calcular lo mismo que buscamos
