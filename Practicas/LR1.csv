@@ -1,5 +1,5 @@
-S, C
-c, d
-S, C, C
-C, c, C
-C, d
+F, B
+a, b, c
+F, c, B, B
+B, a, B
+B, b
