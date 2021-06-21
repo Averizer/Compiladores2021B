@@ -149,7 +149,6 @@ while(banderaFinalizacion):
         indicePunto = ev.index('.')
         if indicePunto != len(ev)-2:
             if ev[indicePunto+1] not in letrasAMover:
-                #if ev[indicePunto+1] in noTerminales:
                 letrasAMover.append(ev[indicePunto+1]) 
 
     for l in letrasAMover:
@@ -161,30 +160,34 @@ while(banderaFinalizacion):
             conjuntoNuevoApartirDeKernel = list()
             for k in kernelCalculado: #Para cada elemento del kernel calculado 
                 conjuntoNuevoApartirDeKernel.extend(cerradura(k))
+                if k.index(".") == len(k)-2:
+                    print("Kernel con punto al final")
+                    aux= list(k)
+                    charFinal = k[-1]
+                    indiceDeProduccion = producciones.index(aux[:-2])
+                    trancision = list()
+                    trancision.append(-1*(kernels.index(kernelCalculado)))
+                    trancision.append(charFinal)
+                    trancision.append(indiceDeProduccion)
+                    aSeparar.append(trancision)
             porCalcular.append(conjuntoNuevoApartirDeKernel)
             conjuntosFinales.append(conjuntoNuevoApartirDeKernel)
             trancision = list()
             trancision.append(conjuntosFinales.index(evaluandoEnAlgoritmo))
             trancision.append(l)
-            trancision.append(kernels.index(kernelCalculado)+1)
+            trancision.append(kernels.index(kernelCalculado))
             aSeparar.append(trancision)
         else:
             trancision = list()
             trancision.append(conjuntosFinales.index(evaluandoEnAlgoritmo))
             trancision.append(l)
-            trancision.append(kernels.index(kernelCalculado)+1)
+            trancision.append(kernels.index(kernelCalculado))
             aSeparar.append(trancision)
     if(len(porCalcular)== 0):
         banderaFinalizacion = False
 
 
-print("Terminales ", terminales)
-print("No terminales ", noTerminales)
-print("Producciones ", producciones)
-print("Primeros ", primeros)
 
-print("\nKernels \n",kernels)
-print("\nConjuntos Finales \n",conjuntosFinales)
 print("")
 tabla = list()
 reduceAAgregar = list()
@@ -201,16 +204,6 @@ for t in terminales:
 for c in range(0, len(conjuntosFinales)):
     reduceAAgregar.clear()
     row = list = ["-" for i in range(len(terminales))]
-    for k in kernels[c]:
-        puntoEnKernel = k.index('.')
-        if puntoEnKernel == (len(k)-2):
-            print("")
-            reduceAAgregar.extend(primeros["p("+str(k[-1])+")"])
-            for reduceA in reduceAAgregar:
-                if c == 1:
-                    row[terminales.index(reduceA)] = "ACC"
-                else:
-                    row[terminales.index(reduceA)] = "r"+str(k[-1])
 
     for sh in aSeparar:
         if sh[0] == c:
@@ -218,6 +211,12 @@ for c in range(0, len(conjuntosFinales)):
                 row[terminales.index(sh[1])] = str(sh[2])
             else:
                 row[terminales.index(sh[1])] = "s"+str(sh[2])
+        if sh[0] < 0:
+            if abs(sh[0]) == c:
+                if sh[2] == 0:
+                    row[terminales.index(sh[1])] = "ACC"
+                else:
+                    row[terminales.index(sh[1])] = "r"+str(sh[2])
     tabla.append(row)
 
 print("\n aSeparar \n",aSeparar)
