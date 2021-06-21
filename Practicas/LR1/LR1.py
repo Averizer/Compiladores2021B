@@ -52,13 +52,11 @@ with open('LR1.csv') as csv_file:
             producciones.append(auxproduccion)
 
 def extenderPrimeros(listaPrimeros, donde):
-    print("------Extender ")
     extendidos = list()
     for r in listaPrimeros:
         auxEx = donde
         auxEx.append(r)
         extendidos.append(auxEx)
-    print("Extendidos ", extendidos)
     return extendidos
 
 def cerradura(conjuntoAHacerCerradura):
@@ -83,14 +81,10 @@ def cerradura(conjuntoAHacerCerradura):
                 for i in range(0, len(producciones_con_puntos)):    #Para todas las producciones con puntos 
                     primerosCerradura = list()
                     if (producciones_con_puntos[i][0] == buscando):
-                        print("="+actual[indicePunto+2]+"=")
                         primerosCerradura = p(actual[indicePunto+2])
-                        print("Primeros en cerradura", primerosCerradura)
-                        print("Produccion a extender ",producciones_con_puntos[i])
                         for pC in primerosCerradura:
                             aux = list(producciones_con_puntos[i])
                             aux.append(pC)
-                            print("Extendido ", aux)
                             if(aux not in resultado):
                                 faltantes.append(aux)
                                 resultadoActual.append(aux)
@@ -144,6 +138,7 @@ auxParaPrimeraCerradura = cerradura(aux)
 print("Primera cerradura ", auxParaPrimeraCerradura)
 conjuntosFinales.append(auxParaPrimeraCerradura)
 porCalcular.append(auxParaPrimeraCerradura)
+kernels.append(auxParaPrimeraCerradura)
 banderaFinalizacion = True
 
 while(banderaFinalizacion):
@@ -157,11 +152,7 @@ while(banderaFinalizacion):
                 #if ev[indicePunto+1] in noTerminales:
                 letrasAMover.append(ev[indicePunto+1]) 
 
-    print("Letras a mover ", letrasAMover)
     for l in letrasAMover:
-        print("")
-        print("Ev ", evaluandoEnAlgoritmo)
-        print("L ",l)
         kernelCalculado = list(mover(evaluandoEnAlgoritmo, l))
         if kernelCalculado not in kernels:
             trancision = list()
@@ -193,3 +184,41 @@ print("Producciones ", producciones)
 print("Primeros ", primeros)
 
 print("\nKernels \n",kernels)
+print("\nConjuntos Finales \n",conjuntosFinales)
+print("")
+tabla = list()
+reduceAAgregar = list()
+terminales.extend(noTerminales)
+
+print("")
+print("Conjuntos finales",len(conjuntosFinales))
+print("Kernels ", len(kernels))
+for t in terminales:
+    llave = "p("+str(t)+")"
+    primeros[llave] = p(t)
+
+# ---------------------Creacion de la tabla, con shift e irA
+for c in range(0, len(conjuntosFinales)):
+    reduceAAgregar.clear()
+    row = list = ["-" for i in range(len(terminales))]
+    for k in kernels[c]:
+        puntoEnKernel = k.index('.')
+        if puntoEnKernel == (len(k)-2):
+            print("")
+            reduceAAgregar.extend(primeros["p("+str(k[-1])+")"])
+            for reduceA in reduceAAgregar:
+                if c == 1:
+                    row[terminales.index(reduceA)] = "ACC"
+                else:
+                    row[terminales.index(reduceA)] = "r"+str(k[-1])
+
+    for sh in aSeparar:
+        if sh[0] == c:
+            if sh[1] in noTerminales:
+                row[terminales.index(sh[1])] = str(sh[2])
+            else:
+                row[terminales.index(sh[1])] = "s"+str(sh[2])
+    tabla.append(row)
+
+print("\n aSeparar \n",aSeparar)
+print(tabulate(tabla, terminales, tablefmt="grid"))

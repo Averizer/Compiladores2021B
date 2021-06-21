@@ -199,7 +199,9 @@ for c in range(0, len(conjuntosFinales)):
             else:
                 row[terminales.index(sh[1])] = "s"+str(sh[2])
     tabla.append(row)
-
+print("")
+print("Conjuntos finales",len(conjuntosFinales))
+print("Kernels ", len(kernels))
 
 print(tabulate(tabla, terminales, tablefmt="grid"))
 
