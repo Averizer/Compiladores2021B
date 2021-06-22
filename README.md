@@ -77,7 +77,7 @@ El algoritmo carga los datos de un archivo llamado LL1.csv, el archivo contiene 
 
 
 
-## LL0
+## LR0
 
 El algoritmo lee los terminales, no terminales y producciones desde el archivo llamado LR0.csv, el programa muestra directamente la tabla LR0, las variables fueron separadas de tal manera que se puede mostrar las producciones, los conjuntos resultante de la ejecución del algoritmo y demás. Se ocupan los conceptos de primero, siguiente, cerradura y mover. 
 Para mostrar la tabla hice uso de la librería Tabulate, obtenida de https://pypi.org/project/tabulate/ . <br />
@@ -86,3 +86,24 @@ Entrada <br />
 <br />
 Salida <br />
 ![image](https://user-images.githubusercontent.com/36316073/122655408-ab1a1b80-d117-11eb-9fbe-0c87aee6b89c.png)
+
+## LR1
+
+El algoritmo lee los terminales, no terminales y producciones desde el archivo llamado LR1.csv, el programa muestra directamente la tabla LR1, las variables fueron separadas de tal manera que se puede mostrar las producciones, los conjuntos resultante de la ejecución del algoritmo y demás. Se ocupan los conceptos de primero, siguiente, cerradura y mover. Esta práctica es el resultado de modificar la práctica anterior (LR0), agredando los simbolos de anticipación y cambiando la forma en la que se iteran los conjuntos.
+Para mostrar la tabla hice uso de la librería Tabulate, obtenida de https://pypi.org/project/tabulate/ . <br />
+Entrada <br />
+![image](https://user-images.githubusercontent.com/36316073/122849472-325ebf00-d2d1-11eb-9ffb-4731d0214a1f.png)
+<br />
+Salida <br />
+![image](https://user-images.githubusercontent.com/36316073/122849572-5de1a980-d2d1-11eb-8016-8071e9724e59.png)
+
+
+## LALR
+
+Este algoritmo es el resultado de agregar el análisis de los kernels a la práctica LR1, este programa funciona unicamente con kernels que son iguales en pares, osea que el conjunto de nuevos estados es de longitud 2, con los ejercicios que vimos en clase, funciona perfectamente el programa. 
+Para mostrar la tabla hice uso de la librería Tabulate, obtenida de https://pypi.org/project/tabulate/ . <br />
+Entrada <br />
+![image](https://user-images.githubusercontent.com/36316073/122849774-c2046d80-d2d1-11eb-84fd-2d9d0813d817.png)
+<br />
+Salida <br />
+![image](https://user-images.githubusercontent.com/36316073/122849991-1e678d00-d2d2-11eb-9035-ace5c6e8ee33.png)
