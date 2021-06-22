@@ -32,7 +32,7 @@ def p(simb):
 
 
 #---------------------LEER ARCHIVO, CARGAR DATOS-------------
-with open('LR1.csv') as csv_file:
+with open('LALR.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
@@ -114,16 +114,7 @@ aux.append(producciones[0][0])
 producciones.insert(0,aux)
 noTerminales.append("Z")
 terminales.append("$")
-#---------------------CAlCULO DE PRIMEROS--------------------
-"""for nt in noTerminales:
-    llave = "p("+str(nt)+")"
-    primeros[llave] = p(nt)
 
-for t in terminales:
-    print(t)
-    llave = "p("+str(t)+")"
-    primeros[llave] = p(t)
-"""
 #---------------------PASO 2 ---------------------------------
 #   +++++ Cerradura 0 +++++
 for pr in producciones:
@@ -194,8 +185,7 @@ reduceAAgregar = list()
 terminales.extend(noTerminales)
 
 print("")
-print("Conjuntos finales",len(conjuntosFinales))
-print("Kernels ", len(kernels))
+
 for t in terminales:
     llave = "p("+str(t)+")"
     primeros[llave] = p(t)
@@ -219,5 +209,69 @@ for c in range(0, len(conjuntosFinales)):
                     row[terminales.index(sh[1])] = "r"+str(sh[2])
     tabla.append(row)
 
-print("\n aSeparar \n",aSeparar)
+#print("\n aSeparar \n",aSeparar)
+
+# ---------------------PASO 4 ver kernels similares
+nuevosEstados = []
+for i in range(1, len(kernels)-1):
+    estadoAgrupado = []
+    kernelActual = []
+    kernelActual.extend(kernels[i])
+    for j in range(i+1, len(kernels)):
+        kernelComparando = []
+        kernelComparando.extend(kernels[j])
+        control = False
+        for k1 in kernelActual:
+            for k2 in kernelComparando:
+                if k1[:-1] == k2[:-1]:
+                    control = True
+                else:
+                    control = False
+        if control:
+            nuevoEstado = []
+            nuevoEstado.append(i)
+            nuevoEstado.append(j)
+            print("Nuevo estado ", nuevoEstado)
+            nuevosEstados.append(nuevoEstado)
+
+# ---------------------PASO 5 Compactar tabla
+
+for numeros in nuevosEstados:
+    fila1 = tabla[numeros[0]]
+    fila2 = tabla[numeros[1]]
+    for x in range(0, len(fila1)):
+        if (fila1[x] =="-" and fila2[x] != "-") :
+            fila1[x] = fila2[x]
+        elif(fila2[x] != "-" and fila1[x] != "-"):
+            if (fila2[x][0] != "r") and (fila2[x][0] != "s"):
+                fila1[x] = fila1[x] + "," + fila2[x]
+            else: 
+                fila1[x] = fila1[x] + "," + fila2[x][1:]
+for t in tabla:
+    print(t)
+estadosAQuitar = []
+for numeros in nuevosEstados:    
+    estadosAQuitar.append(numeros[1])
+estadosAQuitar.sort(reverse=True)
+for x in estadosAQuitar:
+    del tabla[x]
+print(estadosAQuitar)
+
+for i in range(0, len(tabla)):
+    for j in range(0, len(tabla[i])):
+        if len(tabla[i][j]) == 2:
+            ev = int(tabla[i][j][1])
+            for numeros in nuevosEstados:
+                if ev in numeros:
+                    tabla[i][j] = tabla[i][j][-2]
+                    tabla[i][j] = tabla[i][j] + str(numeros)
+        if len(tabla[i][j]) == 1:
+            if tabla[i][j] != '-':
+                ev = int(tabla[i][j])
+                for numeros in nuevosEstados:
+                    if ev in numeros:
+                        tabla[i][j] = tabla[i][j][-1]
+                        tabla[i][j] = tabla[i][j] + str(numeros)
+
+
 print(tabulate(tabla, terminales, tablefmt="grid"))
